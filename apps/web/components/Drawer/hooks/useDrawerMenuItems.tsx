@@ -183,8 +183,8 @@ export const useDrawerMenuItems = ({
       ],
     },
     {
-      key: "pay-roll",
-      title: "Pay Roll",
+      key: "payroll",
+      title: "Payroll",
       icon: <RequestQuoteOutlined />,
       menuItems: [
         {
