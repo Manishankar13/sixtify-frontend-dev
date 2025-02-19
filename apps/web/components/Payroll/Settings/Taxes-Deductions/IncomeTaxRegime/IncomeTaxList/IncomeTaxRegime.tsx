@@ -1,21 +1,21 @@
 import { Add } from "@mui/icons-material";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { Button, PadBox, SearchField } from "@repo/shared-components";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useDialogActions } from "../../../../../../hooks/useDialogActions";
 import { DialogRenderer } from "../../../../../../types/dialogs";
-import { AddIncomeTax } from "../Dialogs/AddIncomeTax";
+import { AddIncomeTaxDialog } from "../Dialogs/AddIncomeTaxDialog";
 import { useDebounceValue } from "usehooks-ts";
 import { Debounce_Delay } from "../../../../../../utils/helper";
-import { IncomeTaxList } from "./IncomeTaxList";
+import { IncomeTaxList, IncomeTaxListRef } from "./IncomeTaxList";
+import { useRef } from "react";
 
 export default function IncomeTaxRegime() {
-  const router = useRouter();
-
   const theme = useTheme();
 
   const { iron, butterflyBlue } = theme.palette.app.color;
+
+  const incomTaxRef = useRef<IncomeTaxListRef>(null);
 
   const { control, watch } = useForm({
     defaultValues: {
@@ -28,7 +28,13 @@ export default function IncomeTaxRegime() {
   const { openedDialog, onDialogClose, onDialogOpen } = useDialogActions();
 
   const dialogRenderer: DialogRenderer = {
-    add: <AddIncomeTax open onClose={onDialogClose} />,
+    add: (
+      <AddIncomeTaxDialog
+        open
+        onClose={onDialogClose}
+        onAddSuccess={() => incomTaxRef.current?.refreshIncomeTaxList()}
+      />
+    ),
   };
 
   return (
@@ -64,7 +70,7 @@ export default function IncomeTaxRegime() {
           </Box>
         </Stack>
       </PadBox>
-      <IncomeTaxList search={searchInput} />
+      <IncomeTaxList search={searchInput} ref={incomTaxRef} />
 
       {openedDialog && dialogRenderer[openedDialog]}
     </Box>

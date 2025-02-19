@@ -1,14 +1,14 @@
 "use client";
 
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { INCOME_TAX_ROUTES } from "../../../../../../../constants/routes/payroll/settings/taxes-deductions/routes";
 import { useAxiosPrivate } from "../../../../../../../hooks/useAxiosPrivate";
+import { incomeTaxKeys } from "../../../../../../../queryKeysFactories/IncomeTax";
 import {
   ApiErrorResponse,
   ApiSuccessResponse,
 } from "../../../../../../../types/apiResponse";
-import { incomeTaxKeys } from "../../../../../../../queryKeysFactories/IncomeTax";
 import { IncomeTaxFormValues } from "../IncomeTaxForm";
-import { INCOME_TAX_ROUTES } from "../../../../../../../constants/routes/payroll/settings/taxes-deductions/routes";
 
 type AddIncomeTaxApiSuccessResponse = ApiSuccessResponse<null>;
 
@@ -16,7 +16,11 @@ type UseAddIncomeTaxDetailsArgs = {
   options: UseMutationOptions<
     AddIncomeTaxApiSuccessResponse,
     ApiErrorResponse,
-    Partial<IncomeTaxFormValues>
+    Partial<
+      Omit<IncomeTaxFormValues, "financial_year"> & {
+        financial_year: { start_date: string; end_date: string };
+      }
+    >
   >;
 };
 

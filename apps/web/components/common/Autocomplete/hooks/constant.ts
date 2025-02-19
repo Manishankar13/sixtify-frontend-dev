@@ -61,3 +61,6 @@ export const FIXED_OT = "fixed_ot";
 export const APPROVE = "approve";
 export const REJECT = "reject";
 export const CANCEL = "cancel";
+
+export const OLD = "old";
+export const NEW = "new";

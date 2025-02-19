@@ -6,13 +6,6 @@ import { QuickFilter } from "../../../../../../../types/agGrid";
 import { ApiSuccessResponse } from "../../../../../../../types/apiResponse";
 import { INCOME_TAX_ROUTES } from "../../../../../../../constants/routes/payroll/settings/taxes-deductions/routes";
 
-export type TaxSlab = {
-  start_range: number;
-  end_range: number;
-  tax_rate: number;
-  surcharge_rate: number;
-};
-
 export type IncomeTax = {
   id: string;
   financial_year: string | null;

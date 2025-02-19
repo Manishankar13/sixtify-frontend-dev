@@ -1,11 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Stack, Typography } from "@mui/material";
-import { Autocomplete, FormRow, TextField } from "@repo/shared-components";
+import { FormRow, PadBox, TextField } from "@repo/shared-components";
+import { DateTime } from "luxon";
 import { ForwardedRef, forwardRef, useImperativeHandle } from "react";
 import { useForm, UseFormSetError } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import { percentageRegex } from "../../../../../../utils/regex";
+import { FinancialYearAutoComplete } from "../../../../../common/Autocomplete/FinancialYearAutoComplete";
+import { TaxRegimeAutoComplete } from "../../../../../common/Autocomplete/TaxRegimeAutoComplete";
 import {
   IncomeTaxSlabRateForm,
   TaxSlabs,
@@ -15,7 +18,6 @@ import {
   IncomeTaxFinancialYearDetails,
   useGetFinancialYear,
 } from "./hooks/useGetFinancialYear";
-import { DateTime } from "luxon";
 
 export const IncomeTaxSchema = z
   .object({
@@ -145,7 +147,13 @@ const formDefaultValues: IncomeTaxFormValues = {
 
 export type FormRef = {
   submitForm: (
-    onSubmit: (formValues: Partial<IncomeTaxFormValues>) => void
+    onSubmit: (
+      formValues: Partial<
+        Omit<IncomeTaxFormValues, "financial_year"> & {
+          financial_year: { start_date: string; end_date: string };
+        }
+      >
+    ) => void
   ) => void;
   setError: UseFormSetError<IncomeTaxFormValues>;
 };
@@ -182,8 +190,6 @@ export const IncomeTaxForm = forwardRef(
 
     const { t } = useTranslation();
 
-    console.log("errors", errors);
-
     useImperativeHandle(ref, () => ({
       submitForm(onSubmit) {
         handleSubmit((formValues) => {
@@ -191,19 +197,19 @@ export const IncomeTaxForm = forwardRef(
             (option) => option.value === formValues.financial_year
           );
 
-          if (selectedYear) {
-            const transformedData = {
-              ...formValues,
-              financial_year: {
-                start_date: selectedYear.start_date,
-                end_date: selectedYear.end_date,
-              },
-            };
-
-            onSubmit(transformedData as any);
-          } else {
-            onSubmit(formValues);
+          if (!selectedYear) {
+            return;
           }
+
+          const transformedData = {
+            ...formValues,
+            financial_year: {
+              start_date: selectedYear.start_date,
+              end_date: selectedYear.end_date,
+            },
+          };
+
+          onSubmit(transformedData);
         })();
       },
       setError,
@@ -216,28 +222,22 @@ export const IncomeTaxForm = forwardRef(
     return (
       <Stack gap="30px">
         <FormRow maxColumn={2}>
-          <Autocomplete
-            label="Financial Year"
+          <FinancialYearAutoComplete
             control={control}
             loading={loading}
             disabled={disabled}
             name="financial_year"
-            options={financialYearOptions}
+            financialYearOptions={financialYearOptions}
             required
             error={!!errors.financial_year}
             helperText={errorMessages(errors.financial_year?.message)}
           />
 
-          <Autocomplete
-            label="Regime"
+          <TaxRegimeAutoComplete
             control={control}
             loading={loading}
             disabled={disabled}
             name="regime_type"
-            options={[
-              { label: "Old Tax Regime", value: "old" },
-              { label: "New Tax Regime", value: "new" },
-            ]}
             required
             error={!!errors.regime_type}
             helperText={errorMessages(errors.regime_type?.message)}
@@ -248,6 +248,7 @@ export const IncomeTaxForm = forwardRef(
           <Typography variant="h6" fontWeight={700}>
             Tax Slab Rate Configuration
           </Typography>
+
           <IncomeTaxSlabRateForm
             slabType="standard"
             control={control}
@@ -255,6 +256,7 @@ export const IncomeTaxForm = forwardRef(
             disabled={disabled}
             loading={loading}
           />
+
           <IncomeTaxSlabRateForm
             slabType="senior"
             control={control}
@@ -262,6 +264,7 @@ export const IncomeTaxForm = forwardRef(
             disabled={disabled}
             loading={loading}
           />
+
           <IncomeTaxSlabRateForm
             slabType="super_senior"
             control={control}
@@ -293,32 +296,31 @@ export const IncomeTaxForm = forwardRef(
             Health and Education Cess:
           </Typography>
 
-          <Stack
-            direction="row"
-            gap="10px"
-            alignItems="center"
-            paddingLeft="10px"
-          >
-            <Typography variant="body1">
-              Health and Education Cess is calculated as
-            </Typography>
+          <PadBox padding={{ paddingLeft: "10px" }}>
+            <Stack direction="row" gap="10px" alignItems="center">
+              <Typography variant="body1">
+                Health and Education Cess is calculated as
+              </Typography>
 
-            <TextField
-              name="health_education_cess_rate"
-              control={control}
-              loading={loading}
-              required
-              type="number"
-              disabled={disabled}
-              error={!!errors.health_education_cess_rate}
-              helperText={errorMessages(
-                errors.health_education_cess_rate?.message
-              )}
-              sx={{ maxwidth: "230px" }}
-            />
+              <TextField
+                name="health_education_cess_rate"
+                control={control}
+                loading={loading}
+                required
+                type="number"
+                disabled={disabled}
+                error={!!errors.health_education_cess_rate}
+                helperText={errorMessages(
+                  errors.health_education_cess_rate?.message
+                )}
+                sx={{ maxwidth: "230px" }}
+              />
 
-            <Typography variant="body1">% of Income Tax + Surcharge</Typography>
-          </Stack>
+              <Typography variant="body1">
+                % of Income Tax + Surcharge
+              </Typography>
+            </Stack>
+          </PadBox>
         </Stack>
       </Stack>
     );

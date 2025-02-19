@@ -22,8 +22,6 @@ import { z } from "zod";
 import { IncomeTaxFormValues } from "./IncomeTaxForm";
 import { useTranslation } from "react-i18next";
 
-const percentageRegex = /^(100|[1-9]?[0-9](\.\d{1,2})?)$/;
-
 export const taxSlabsSchema = z.object({
   start_range: z
     .number()
@@ -40,21 +38,39 @@ export const taxSlabsSchema = z.object({
       message: "common.required",
     }),
   tax_rate: z
-    .string()
-    .regex(percentageRegex, "Valid percentage")
-    .nullable()
+    .union([z.string(), z.number()])
     .refine((value) => !!value, {
       message: "common.required",
     })
-    .transform((value) => (value ? parseFloat(value) : null)),
+    .transform((value) => {
+      if (typeof value === "string") {
+        const parsedValue = parseFloat(value);
+        return isNaN(parsedValue) ? null : parsedValue;
+      }
+      return value;
+    })
+    .nullable()
+    .refine(
+      (value) => value !== null && !isNaN(value as number),
+      "Valid percentage"
+    ),
   surcharge_rate: z
-    .string()
-    .regex(percentageRegex, "Valid percentage")
-    .nullable()
+    .union([z.string(), z.number()])
     .refine((value) => !!value, {
       message: "common.required",
     })
-    .transform((value) => (value ? parseFloat(value) : null)),
+    .transform((value) => {
+      if (typeof value === "string") {
+        const parsedValue = parseFloat(value);
+        return isNaN(parsedValue) ? null : parsedValue;
+      }
+      return value;
+    })
+    .nullable()
+    .refine(
+      (value) => value !== null && !isNaN(value as number),
+      "Valid percentage"
+    ),
 });
 
 export type TaxSlabs = {

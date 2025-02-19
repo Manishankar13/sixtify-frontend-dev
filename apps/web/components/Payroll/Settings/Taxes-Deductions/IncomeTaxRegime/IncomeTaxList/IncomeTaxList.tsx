@@ -67,7 +67,6 @@ export const IncomeTaxList = forwardRef(
         },
       });
 
-      console.log("incomeTaxRegimes", incomeTaxRegimes);
       let lastRow = -1;
 
       if (incomeTaxRegimes.length < defaultPageSize) {

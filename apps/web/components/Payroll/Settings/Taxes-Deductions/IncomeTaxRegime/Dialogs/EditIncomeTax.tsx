@@ -1,11 +1,11 @@
 import { Stack } from "@mui/material";
 import { Button, Dialog, toasts } from "@repo/shared-components";
 import { useMemo, useRef } from "react";
-import { FormRef, IncomeTaxForm, IncomeTaxFormValues } from "./IncomeTaxForm";
-import { useEditIncomeTax } from "./hooks/useEditIncomeTax";
-import { onError } from "../../../../../../utils/errors";
 import { useDisabledButtonsCache } from "../../../../../../app/context/DisabledButtonsCacheContext/DisabledButtonsCacheContext";
 import { submitButtonId } from "../../../../../../hooks/useEnableDisableSubmitButtonToggle";
+import { onError } from "../../../../../../utils/errors";
+import { FormRef, IncomeTaxForm, IncomeTaxFormValues } from "./IncomeTaxForm";
+import { useEditIncomeTax } from "./hooks/useEditIncomeTax";
 import { useGetViewIncomeTax } from "./hooks/useGetViewIncomeTax";
 
 type EditIncomeTaxDialogProps = {
@@ -42,7 +42,7 @@ export const EditIncomeTax = ({
     },
   });
 
-  const onEditLocation = () => {
+  const onEditIncomeTax = () => {
     formRef.current?.submitForm((formValues) => {
       mutate(formValues);
     });
@@ -94,7 +94,7 @@ export const EditIncomeTax = ({
           </Button>
 
           <Button
-            onClick={onEditLocation}
+            onClick={onEditIncomeTax}
             loading={isPending}
             disabled={isDisabled()}
           >

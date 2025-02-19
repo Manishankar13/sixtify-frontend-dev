@@ -8,15 +8,21 @@ import { onError } from "../../../../../../utils/errors";
 type AddIncomeTaxDialogProps = {
   open: boolean;
   onClose: () => void;
+  onAddSuccess: () => void;
 };
 
-export const AddIncomeTax = ({ open, onClose }: AddIncomeTaxDialogProps) => {
+export const AddIncomeTaxDialog = ({
+  open,
+  onClose,
+  onAddSuccess,
+}: AddIncomeTaxDialogProps) => {
   const formRef = useRef<FormRef>(null);
 
   const { mutate } = useAddIncomeTaxDetails({
     options: {
       onSuccess: (data) => {
         toasts.success({ title: data.message });
+        onClose();
       },
       onError: (error) => onError(error, formRef.current?.setError),
     },
@@ -24,7 +30,6 @@ export const AddIncomeTax = ({ open, onClose }: AddIncomeTaxDialogProps) => {
 
   const handleSave = () => {
     formRef.current?.submitForm((formValues) => {
-      console.log("formValues", formValues);
       mutate(formValues);
     });
   };
