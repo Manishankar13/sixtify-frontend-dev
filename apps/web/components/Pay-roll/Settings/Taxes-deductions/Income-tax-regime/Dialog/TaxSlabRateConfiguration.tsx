@@ -28,6 +28,7 @@ type TaxSlabRateConfigurationProps = {
   errors: FieldErrors<IncomeTaxRegimeFormFieldValues>;
   disabled: boolean;
   watch: UseFormWatch<Partial<IncomeTaxRegimeFormFieldValues>>;
+  loading?: boolean;
 };
 
 const Headers = [
@@ -43,6 +44,7 @@ export const TaxSlabRateConfiguration = ({
   errors,
   disabled,
   watch,
+  loading,
 }: TaxSlabRateConfigurationProps) => {
   const { t } = useTranslation();
 
@@ -147,6 +149,7 @@ export const TaxSlabRateConfiguration = ({
     <Stack gap="15px">
       <Stack gap="15px">
         <Typography variant="h6">Standard Taxpayer(Below 60)</Typography>
+
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: slate[700] }}>
@@ -170,6 +173,7 @@ export const TaxSlabRateConfiguration = ({
                       isCapitalize
                       type="number"
                       disabled={disabled}
+                      loading={loading}
                       placeholder="Start Range"
                       error={
                         !!_.get(
@@ -186,6 +190,7 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <TextField
                       name={`tax_slabs.standard.${index}.end_range`}
@@ -193,6 +198,7 @@ export const TaxSlabRateConfiguration = ({
                       isCapitalize
                       disabled={disabled}
                       type="number"
+                      loading={loading}
                       placeholder="End Range"
                       error={
                         !!_.get(
@@ -209,12 +215,14 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <TextField
                       name={`tax_slabs.standard.${index}.tax_rate`}
                       control={control}
                       isCapitalize
                       disabled={disabled}
+                      loading={loading}
                       type="number"
                       placeholder="Tax Rate"
                       error={
@@ -229,6 +237,7 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <TextField
                       name={`tax_slabs.standard.${index}.surcharge_rate`}
@@ -236,6 +245,7 @@ export const TaxSlabRateConfiguration = ({
                       disabled={disabled}
                       isCapitalize
                       type="number"
+                      loading={loading}
                       placeholder="Surcharge Rate"
                       error={
                         !!_.get(
@@ -252,15 +262,13 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <DeleteAction
                       onClick={() =>
                         standardFields?.length > 1 && removeStandard(index)
                       }
-                      disabled={
-                        (standardFields?.length ?? 0) <= 1
-                        // || isViewMode
-                      }
+                      disabled={(standardFields?.length ?? 0) <= 1 || disabled}
                     />
                   </TableCell>
                 </TableRow>
@@ -280,9 +288,6 @@ export const TaxSlabRateConfiguration = ({
                 ) ||
                 !isStandardLastRowValid ||
                 disabled
-                //  ||
-                // isViewMode ||
-                // !preRowEndTime
               }
             >
               Add New
@@ -292,6 +297,7 @@ export const TaxSlabRateConfiguration = ({
       </Stack>
       <Stack gap="15px">
         <Typography variant="h6">Senior Citizen(60 to 80)</Typography>
+
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: slate[700] }}>
@@ -314,6 +320,7 @@ export const TaxSlabRateConfiguration = ({
                       control={control}
                       disabled={disabled}
                       isCapitalize
+                      loading={loading}
                       type="number"
                       placeholder="Start Range"
                       error={
@@ -331,12 +338,14 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <TextField
                       name={`tax_slabs.senior.${index}.end_range`}
                       control={control}
                       disabled={disabled}
                       isCapitalize
+                      loading={loading}
                       type="number"
                       placeholder="End Range"
                       error={
@@ -351,12 +360,14 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <TextField
                       name={`tax_slabs.senior.${index}.tax_rate`}
                       control={control}
                       disabled={disabled}
                       isCapitalize
+                      loading={loading}
                       type="number"
                       placeholder="Tax Rate"
                       error={
@@ -371,12 +382,14 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <TextField
                       name={`tax_slabs.senior.${index}.surcharge_rate`}
                       control={control}
                       disabled={disabled}
                       isCapitalize
+                      loading={loading}
                       type="number"
                       placeholder="Surcharge Rate"
                       error={
@@ -394,15 +407,13 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <DeleteAction
                       onClick={() =>
                         seniorFields?.length > 1 && removeSenior(index)
                       }
-                      disabled={
-                        (seniorFields?.length ?? 0) <= 1
-                        // || isViewMode
-                      }
+                      disabled={(seniorFields?.length ?? 0) <= 1 || disabled}
                     />
                   </TableCell>
                 </TableRow>
@@ -422,9 +433,6 @@ export const TaxSlabRateConfiguration = ({
                 ) ||
                 !isSeniorLastRowValid ||
                 disabled
-                //  ||
-                // isViewMode ||
-                // !preRowEndTime
               }
             >
               Add New
@@ -434,6 +442,7 @@ export const TaxSlabRateConfiguration = ({
       </Stack>
       <Stack gap="15px">
         <Typography variant="h6">Super Senior Citizen(80 and Above)</Typography>
+
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: slate[700] }}>
@@ -456,6 +465,7 @@ export const TaxSlabRateConfiguration = ({
                       control={control}
                       disabled={disabled}
                       isCapitalize
+                      loading={loading}
                       type="number"
                       placeholder="Start Range"
                       error={
@@ -473,6 +483,7 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <TextField
                       name={`tax_slabs.super_senior.${index}.end_range`}
@@ -480,6 +491,7 @@ export const TaxSlabRateConfiguration = ({
                       disabled={disabled}
                       isCapitalize
                       type="number"
+                      loading={loading}
                       placeholder="End Range"
                       error={
                         !!_.get(
@@ -496,6 +508,7 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <TextField
                       name={`tax_slabs.super_senior.${index}.tax_rate`}
@@ -503,6 +516,7 @@ export const TaxSlabRateConfiguration = ({
                       disabled={disabled}
                       isCapitalize
                       type="number"
+                      loading={loading}
                       placeholder="Tax Rate"
                       error={
                         !!_.get(
@@ -519,12 +533,14 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <TextField
                       name={`tax_slabs.super_senior.${index}.surcharge_rate`}
                       control={control}
                       disabled={disabled}
                       isCapitalize
+                      loading={loading}
                       type="number"
                       placeholder="Surcharge Rate"
                       error={
@@ -542,6 +558,7 @@ export const TaxSlabRateConfiguration = ({
                       )}
                     />
                   </TableCell>
+
                   <TableCell>
                     <DeleteAction
                       onClick={() =>
@@ -549,8 +566,7 @@ export const TaxSlabRateConfiguration = ({
                         removeSuperSenior(index)
                       }
                       disabled={
-                        (superSeniorFields?.length ?? 0) <= 1
-                        // || isViewMode
+                        (superSeniorFields?.length ?? 0) <= 1 || disabled
                       }
                     />
                   </TableCell>
@@ -571,9 +587,6 @@ export const TaxSlabRateConfiguration = ({
                 ) ||
                 !isSuperSeniorLastRowValid ||
                 disabled
-                //  ||
-                // isViewMode ||
-                // !preRowEndTime
               }
             >
               Add New

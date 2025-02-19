@@ -23,14 +23,18 @@ export default function Page() {
 
   const categoryRenderer: Record<CategoryKeys, ReactNode> = {
     "income-tax-regime": <IncomeTaxRegime />,
+
     "pt-group": <IncomeTaxRegime />,
+
     "investment-deduction": <IncomeTaxRegime />,
   };
 
   return (
     <Stack gap="10px">
       <TaxesAndDeductionsBreadcrumbs />
+
       <Tabs />
+
       {tab && categoryRenderer[tab as CategoryKeys]}
     </Stack>
   );

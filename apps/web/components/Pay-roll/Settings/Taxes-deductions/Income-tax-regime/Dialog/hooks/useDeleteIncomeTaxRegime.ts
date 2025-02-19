@@ -4,31 +4,36 @@ import type { UseMutationOptions } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { INCOME_TAX_REGIME_ROUTES } from "../../../../../../../constants/routes/pay-roll/settings/taxes-deductions/income-tax-regime/routes";
 import { useAxiosPrivate } from "../../../../../../../hooks/useAxiosPrivate";
+import { incomeTaxRegimeKeys } from "../../../../../../../queryKeysFactories/IncomeTaxRegime";
 import type {
   ApiErrorResponse,
   ApiSuccessResponse,
 } from "../../../../../../../types/apiResponse";
 import type { IncomeTaxRegime } from "../../IncomeTaxRegimeList/hooks/useGetIncomeTaxRegime";
 
-type DeleteCompanyApiResponse = ApiSuccessResponse<IncomeTaxRegime>;
+type DeleteIncomeTaxRegimeApiResponse = ApiSuccessResponse<IncomeTaxRegime>;
 
-type UseDeleteCompanyArgs = {
-  options: UseMutationOptions<DeleteCompanyApiResponse, ApiErrorResponse>;
+type UseIncomeTaxRegimeArgs = {
+  options: UseMutationOptions<
+    DeleteIncomeTaxRegimeApiResponse,
+    ApiErrorResponse
+  >;
   incomeTaxRegimeId: string;
 };
 
 export function useDeleteIncomeTaxRegime({
   incomeTaxRegimeId,
   options = {},
-}: UseDeleteCompanyArgs) {
+}: UseIncomeTaxRegimeArgs) {
   const { axiosPrivate } = useAxiosPrivate();
 
   return useMutation({
-    mutationKey: ["companyKeys.delete(companyId)"],
+    mutationKey: incomeTaxRegimeKeys.delete(incomeTaxRegimeId),
     mutationFn: async () => {
-      const { data } = await axiosPrivate.delete<DeleteCompanyApiResponse>(
-        INCOME_TAX_REGIME_ROUTES.delete(incomeTaxRegimeId)
-      );
+      const { data } =
+        await axiosPrivate.delete<DeleteIncomeTaxRegimeApiResponse>(
+          INCOME_TAX_REGIME_ROUTES.delete(incomeTaxRegimeId)
+        );
 
       return data;
     },

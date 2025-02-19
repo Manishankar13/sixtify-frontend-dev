@@ -2,11 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import type { IGetRowsParams } from "ag-grid-community";
 import { INCOME_TAX_REGIME_ROUTES } from "../../../../../../../constants/routes/pay-roll/settings/taxes-deductions/income-tax-regime/routes";
 import { useAxiosPrivate } from "../../../../../../../hooks/useAxiosPrivate";
+import { incomeTaxRegimeKeys } from "../../../../../../../queryKeysFactories/IncomeTaxRegime";
 import type { QuickFilter } from "../../../../../../../types/agGrid";
 import type { ApiSuccessResponse } from "../../../../../../../types/apiResponse";
-// import { useAxiosPrivate } from "../../../../../hooks/useAxiosPrivate";
-// import { companyKeys } from "../../../../../queryKeysFactories/company";
-// import type { QuickFilter } from "../../../../../types/agGrid";
 
 type FinancialYear = {
   start_date: string;
@@ -22,7 +20,7 @@ export type IncomeTaxRegime = {
   full_count: string;
 };
 
-type GetincomeTaxRegimesArgs = {
+type GetIncomeTaxRegimesArgs = {
   body?:
     | IGetRowsParams
     | QuickFilter
@@ -35,7 +33,7 @@ type GetincomeTaxRegimesArgs = {
 export function useGetIncomeTaxRegimeQueryFn() {
   const { axiosPrivate } = useAxiosPrivate();
 
-  const getIncomeTaxRegime = async ({ body }: GetincomeTaxRegimesArgs) => {
+  const getIncomeTaxRegime = async ({ body }: GetIncomeTaxRegimesArgs) => {
     const { data } = await axiosPrivate.post<
       ApiSuccessResponse<{
         incomeTaxRegimes: IncomeTaxRegime[];
@@ -50,11 +48,11 @@ export function useGetIncomeTaxRegimeQueryFn() {
 }
 
 //NOTE: for future use
-export function useGetIncomeTaxRegime({ body }: GetincomeTaxRegimesArgs) {
+export function useGetIncomeTaxRegime({ body }: GetIncomeTaxRegimesArgs) {
   const { getIncomeTaxRegime } = useGetIncomeTaxRegimeQueryFn();
 
   return useQuery({
-    queryKey: ["companyKeys.listing(body)"],
+    queryKey: incomeTaxRegimeKeys.listing(body),
     queryFn: () => getIncomeTaxRegime({ body }),
     initialData: { incomeTaxRegimes: [], totalCount: 0 },
   });

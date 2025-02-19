@@ -22,7 +22,7 @@ export const useTabItems = () => {
   const categoryItems: CategoryItem[] = [
     {
       value: "income-tax-regime",
-      title: "Income Tax Regime",
+      title: categories["income-tax-regime"],
       onClick: () =>
         router.push(
           "/pay-roll/settings/taxes-deductions?tab=income-tax-regime"
@@ -30,13 +30,13 @@ export const useTabItems = () => {
     },
     {
       value: "pt-group",
-      title: "PT Group",
+      title: categories["pt-group"],
       onClick: () =>
         router.push("/pay-roll/settings/taxes-deductions?tab=pt-group"),
     },
     {
       value: "investment-deduction",
-      title: "Investment Deduction",
+      title: categories["investment-deduction"],
       onClick: () =>
         router.push(
           "/pay-roll/settings/taxes-deductions?tab=investment-deduction"

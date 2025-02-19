@@ -3,9 +3,6 @@ import { useTranslation } from "react-i18next";
 import { onError } from "../../../../../../utils/errors";
 import type { IncomeTaxRegime } from "../IncomeTaxRegimeList/hooks/useGetIncomeTaxRegime";
 import { useDeleteIncomeTaxRegime } from "./hooks/useDeleteIncomeTaxRegime";
-// import { onError } from "../../../../utils/errors";
-// import type { Company } from "../CompanyList/hooks/useGetCompanies";
-// import { useDeleteCompany } from "./hooks/useDeleteCompany";
 
 type DeleteIncomeTaxRegimeDialogProps = {
   open: boolean;

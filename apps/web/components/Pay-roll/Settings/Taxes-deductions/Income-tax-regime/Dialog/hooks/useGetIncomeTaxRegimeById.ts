@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { INCOME_TAX_REGIME_ROUTES } from "../../../../../../../constants/routes/pay-roll/settings/taxes-deductions/income-tax-regime/routes";
 import { useAxiosPrivate } from "../../../../../../../hooks/useAxiosPrivate";
+import { incomeTaxRegimeKeys } from "../../../../../../../queryKeysFactories/IncomeTaxRegime";
 import type { ApiSuccessResponse } from "../../../../../../../types/apiResponse";
 import type {
   FinancialYearSchemaFieldValues,
@@ -33,7 +34,7 @@ export function useGetIncomeTaxRegimeById({ id }: IncomeTaxRegimeId) {
   };
 
   return useQuery({
-    queryKey: ["companyKeys.listing(body)"],
+    queryKey: incomeTaxRegimeKeys.get(id),
     queryFn: getIncomeTaxRegimeById,
     enabled: !!id,
   });

@@ -2,6 +2,8 @@ import { Stack } from "@mui/material";
 import { Button, Dialog, toasts } from "@repo/shared-components";
 import { isFunction } from "lodash";
 import { useRef } from "react";
+import type { FieldValues } from "react-hook-form";
+import type { ApiErrorResponse } from "../../../../../../types/apiResponse";
 import { onError } from "../../../../../../utils/errors";
 import { useAddIncomeTaxRegime } from "./hooks/useAddIncomeTaxRegime";
 import type { FormRef } from "./IncomeTaxRegimeForm";
@@ -19,8 +21,6 @@ export const AddIncomeTaxRegimeDialog = ({
   onAddSuccess,
 }: AddIncomeTaxRegimeDialogProps) => {
   const formRef = useRef<FormRef>(null);
-
-  // const { isDisabled } = useDisabledButtonsCache(submitButtonId);
 
   const { mutate, isPending } = useAddIncomeTaxRegime({
     options: {
@@ -52,7 +52,7 @@ export const AddIncomeTaxRegimeDialog = ({
 
         flattenErrors(error);
 
-        const structuredError = {
+        const structuredError: ApiErrorResponse<FieldValues> = {
           response: {
             data: {
               message,
@@ -66,7 +66,7 @@ export const AddIncomeTaxRegimeDialog = ({
     },
   });
 
-  const onCreateBusinessUnit = () => {
+  const onCreateIncomeTaxRegime = () => {
     formRef.current?.submitForm((formValues) => {
       mutate(formValues);
     });
@@ -84,11 +84,7 @@ export const AddIncomeTaxRegimeDialog = ({
             Cancel
           </Button>
 
-          <Button
-            onClick={onCreateBusinessUnit}
-            loading={isPending}
-            // disabled={isDisabled()}
-          >
+          <Button onClick={onCreateIncomeTaxRegime} loading={isPending}>
             Save
           </Button>
         </Stack>

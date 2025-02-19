@@ -8,14 +8,6 @@ import type {
 import type { DialogTypes } from "../../../../../../../types/dialogs";
 import { dateFormat } from "../../../../../../../utils/date";
 import type { IncomeTaxRegime } from "./useGetIncomeTaxRegime";
-// import { useNavigateToRoute } from "../../../../../hooks/useNavigateToRoute";
-// import type {
-//     AgColumnsArgs,
-//     AgColumnsWithActions,
-// } from "../../../../../types/agGrid";
-// import type { DialogTypes } from "../../../../../types/dialogs";
-// import { dateFormat } from "../../../../../utils/date";
-// import type { Company } from "./useGetCompanies";
 
 type IncomeTaxRegimeColumns = {
   onAction: (actionType: DialogTypes, rowData: IncomeTaxRegime) => void;
@@ -25,8 +17,6 @@ export const useIncomeTaxRegimeColumns = ({
   onAction,
   loading,
 }: AgColumnsArgs<IncomeTaxRegimeColumns>) => {
-  // const navigateToNewPage = useNavigateToRoute();
-
   const theme = useTheme();
 
   const column: AgColumnsWithActions<IncomeTaxRegime> = [

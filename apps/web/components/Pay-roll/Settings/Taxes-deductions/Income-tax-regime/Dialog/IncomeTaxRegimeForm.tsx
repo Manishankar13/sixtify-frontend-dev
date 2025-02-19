@@ -54,16 +54,6 @@ export type FinancialYearSchemaFieldValues = z.infer<
 >;
 
 const IncomeTaxRegimeFormSchema = z.object({
-  // financial_year: financialYearSchema
-  //     .superRefine((val, ctx) => {
-  //         if (!val.start_date || !val.end_date) {
-  //             ctx.addIssue({
-  //                 code: z.ZodIssueCode.custom,
-  //                 message: "common.required",
-  //                 path: ["financial_year"],
-  //             });
-  //         }
-  //     }),
   financial_year: z.string().nullable(),
   regime_type: z
     .string()
@@ -142,7 +132,6 @@ export const IncomeTaxRegimeForm = forwardRef(
     {
       defaultValues = formDefaultValues,
       isView = false,
-      // isEdit = false,
       isIncomeTaxRegimeDetailLoading,
     }: IncomeTaxRegimeFormProps,
     ref: ForwardedRef<FormRef>
@@ -152,7 +141,6 @@ export const IncomeTaxRegimeForm = forwardRef(
     const {
       watch,
       control,
-      // setValue,
       setError,
       formState: { errors, dirtyFields },
       handleSubmit,
@@ -194,10 +182,12 @@ export const IncomeTaxRegimeForm = forwardRef(
               disabled={isView}
               name="financial_year"
               label="Financial Year"
+              loading={isIncomeTaxRegimeDetailLoading}
               defaultValue={defaultValues?.financial_year}
               control={control}
               sx={{ minWidth: "260px" }}
             />
+
             <RegimeAutoComplete
               loading={isIncomeTaxRegimeDetailLoading}
               disabled={isView}
@@ -208,14 +198,17 @@ export const IncomeTaxRegimeForm = forwardRef(
             />
           </FormRow>
         </FormSection>
+
         <FormSection title="Tax Slab Rate Configuration">
           <TaxSlabRateConfiguration
             disabled={isView}
             control={control}
             errors={errors}
             watch={watch}
+            loading={isIncomeTaxRegimeDetailLoading}
           />
         </FormSection>
+
         <Stack direction="row" gap="10px" alignItems="center">
           <Typography variant="body1">Standard Deduction Limit</Typography>
 
@@ -225,6 +218,7 @@ export const IncomeTaxRegimeForm = forwardRef(
             required
             disabled={isView}
             type="number"
+            loading={isIncomeTaxRegimeDetailLoading}
             error={!!errors.standard_deduction_limit}
             helperText={t(
               _.get(errors, "standard_deduction_limit.message", "")
@@ -233,6 +227,7 @@ export const IncomeTaxRegimeForm = forwardRef(
 
           <Typography variant="body1">Rs</Typography>
         </Stack>
+
         <Stack gap="16px">
           <Typography variant="body1" sx={{ fontWeight: 600 }}>
             Health and Education Cess

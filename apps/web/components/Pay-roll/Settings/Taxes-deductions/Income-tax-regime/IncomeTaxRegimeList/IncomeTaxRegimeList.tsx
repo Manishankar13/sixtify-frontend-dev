@@ -65,13 +65,13 @@ export const IncomeTaxRegimeList = forwardRef(
 
       let lastRow = -1;
 
-      if (incomeTaxRegimes.length < defaultPageSize) {
+      if (incomeTaxRegimes?.length < defaultPageSize) {
         lastRow = totalCount;
       }
 
       setLoading(false);
 
-      if (incomeTaxRegimes.length === 0) {
+      if (incomeTaxRegimes?.length === 0) {
         gridRef.current?.api.showNoRowsOverlay();
       } else {
         gridRef.current?.api.hideOverlay();
@@ -115,6 +115,7 @@ export const IncomeTaxRegimeList = forwardRef(
           onClose={onDialogClose}
         />
       ),
+
       edit: currentIncomeTaxRegime && (
         <EditAndViewIncomeTaxRegimeDialog
           open
@@ -124,6 +125,7 @@ export const IncomeTaxRegimeList = forwardRef(
           onClose={onDialogClose}
         />
       ),
+
       view: currentIncomeTaxRegime && (
         <EditAndViewIncomeTaxRegimeDialog
           open

@@ -61,6 +61,7 @@ export default function IncomeTaxRegime() {
             alignItems="center"
           >
             <Typography variant="subtitle1">Income Tax Regime</Typography>
+
             <Stack direction="row" gap="5px">
               <SearchField name="search" control={control} />
 
@@ -74,11 +75,13 @@ export default function IncomeTaxRegime() {
             </Stack>
           </Stack>
         </PadBox>
+
         <IncomeTaxRegimeList
           ref={incomeTaxRegimeListRef}
           search={searchInput}
         />
       </Box>
+
       {openedDialog && dialogRenderer[openedDialog]}
     </Stack>
   );

@@ -27,7 +27,7 @@ export const EditAndViewIncomeTaxRegimeDialog = ({
     isLoading: isIncomeTaxRegimeDetailLoading,
   } = useGetIncomeTaxRegimeById({ id: incomeTaxRegimeId ?? "" });
 
-  const onCreateBusinessUnit = () => {
+  const onEditIncomeTaxRegime = () => {
     formRef.current?.submitForm((formValues) => {
       alert(JSON.stringify(formValues));
     });
@@ -46,7 +46,7 @@ export const EditAndViewIncomeTaxRegimeDialog = ({
           </Button>
           {openedDialog === "edit" && (
             <Button
-              onClick={onCreateBusinessUnit}
+              onClick={onEditIncomeTaxRegime}
               disabled={isIncomeTaxRegimeDetailLoading}
             >
               Save
